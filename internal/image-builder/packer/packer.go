@@ -13,38 +13,37 @@ type Packer struct {
 
 func New() *Packer {
 	return &Packer{
-		*hashicorp.New(".pkr.hcl"),
+		Hashicorp: *hashicorp.New(".pkr.hcl"),
 	}
 }
 
-func (pk Packer) MakePackerBlock(version string) (*hclwrite.Block, *hclwrite.Body) {
+func (pk Packer) MakePacker(version string) (*hclwrite.Block, *hclwrite.Body) {
 	block, body := pk.Hashicorp.NewBlock("packer", nil)
 	body.SetAttributeValue("required_version", cty.StringVal(version))
 	return block, body
 }
 
-func (pk Packer) MakePlugins(body *hclwrite.Body, plugins []plugin.Plugin) {
+func (pk Packer) MakePlugins(body *hclwrite.Body, plugins []plugin.Plugin) (*hclwrite.Block, *hclwrite.Body) {
 	body.AppendNewline()
 
-	pluginBlock := body.AppendNewBlock("required_plugins", nil)
-
-	pluginBody := pluginBlock.Body()
+	pgBlock := body.AppendNewBlock("required_plugins", nil)
+	pgBody := pgBlock.Body()
 
 	for _, p := range plugins {
-		pluginBody.SetAttributeValue(p.Name, cty.ObjectVal(map[string]cty.Value{
+		pgBody.SetAttributeValue(p.Name, cty.ObjectVal(map[string]cty.Value{
 			"version": cty.StringVal(p.Version),
 			"source":  cty.StringVal(p.Source),
 		}))
 	}
+	return pgBlock, pgBody
 }
 
 func (pk Packer) MakeSourceBlock(labels []string) (*hclwrite.Block, *hclwrite.Body) {
 	block, body := pk.Hashicorp.NewBlock("source", labels)
 
 	switch labels[0] {
-	case "procmox":
+	case "proxmox":
 
 	}
-
 	return block, body
 }

@@ -10,8 +10,8 @@ import (
 type Hashicorp struct {
 	// 파일 확장자
 	fileExtension string
-	File          hclwrite.File
-	Body          hclwrite.Body
+	File          *hclwrite.File
+	Body          *hclwrite.Body
 }
 
 func New(fileExtension string) *Hashicorp {
@@ -20,15 +20,15 @@ func New(fileExtension string) *Hashicorp {
 
 	return &Hashicorp{
 		fileExtension: fileExtension,
-		File:          file,
-		Body:          *body,
+		File:          &file,
+		Body:          body,
 	}
 }
 
-func (hc Hashicorp) NewBlock(name string, labels []string) (*hclwrite.Block, *hclwrite.Body) {
-	block := hc.Body.AppendNewBlock(name, []string{})
-	return block, block.Body()
-}
+//func (hc Hashicorp) NewBlock(name string, labels []string) (*hclwrite.Block, *hclwrite.Body) {
+//	block := hc.Body.AppendNewBlock(name, []string{})
+//	return block, block.Body()
+//}
 
 func (hc Hashicorp) CreateFile(fileName string) {
 	fileName = fmt.Sprintf("%s%s", fileName, hc.fileExtension)
