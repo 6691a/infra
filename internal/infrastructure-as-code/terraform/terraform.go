@@ -6,16 +6,16 @@ import (
 	"github.com/hashicorp/hcl/v2/hclwrite"
 )
 
-func New(provider provider.IProvider) *Terraform {
+type Terraform struct {
+	hashicorp.Hashicorp
+	provider provider.IProvider
+}
+
+func (tf Terraform) New(provider provider.IProvider) *Terraform {
 	return &Terraform{
 		*hashicorp.New(".tf"),
 		provider,
 	}
-}
-
-type Terraform struct {
-	hashicorp.Hashicorp
-	provider provider.IProvider
 }
 
 func (tf Terraform) MakeTerraform(body *hclwrite.Body) (*hclwrite.Block, *hclwrite.Body) {

@@ -11,11 +11,20 @@ type AWSProvider struct {
 	region string
 }
 
-func New(version string, region string) *AWSProvider {
+func (aws AWSProvider) New(version string, region string) *AWSProvider {
 	return &AWSProvider{
 		*provider.New("aws", version, "hashicorp/aws"),
 		region,
 	}
+}
+
+type Tag struct {
+	Name string
+	Env  string
+}
+
+func (tg Tag) New(name string, env string) *Tag {
+	return &Tag{name, env}
 }
 
 func (aws AWSProvider) MakeTerraform(body *hclwrite.Body) *hclwrite.Attribute {
