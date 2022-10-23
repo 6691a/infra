@@ -12,12 +12,12 @@ type vpc struct {
 	InstanceTenancy string
 }
 
-func (v vpc) New(cidrBlock string, name string, instanceTenancy string, tagName string) vpc {
+func NewVPC(cidrBlock string, name string, instanceTenancy string, tagName string) *vpc {
 	switch instanceTenancy {
 	case "dedicated":
-		return vpc{CidrBlock: cidrBlock, Name: name, InstanceTenancy: "dedicated", TagName: tagName}
+		return &vpc{CidrBlock: cidrBlock, Name: name, InstanceTenancy: "dedicated", TagName: tagName}
 	default:
-		return vpc{CidrBlock: cidrBlock, Name: name, InstanceTenancy: "default", TagName: tagName}
+		return &vpc{CidrBlock: cidrBlock, Name: name, InstanceTenancy: "default", TagName: tagName}
 	}
 }
 
