@@ -1,0 +1,26 @@
+vm: 
+  node:
+  id: 
+  name: 
+  iso: 
+  iso_storage_pool: 
+  cores: 
+  memory:
+
+disk:
+  size: 
+  storage_pool:
+  format: 
+  type: 
+
+ssh: 
+  timeout: 
+  username: 
+  key_file: 
+
+network:
+  ip: 
+  gateway: 
+
+
+
