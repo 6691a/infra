@@ -1,0 +1,6 @@
+---
+- name: Install GCP
+  import_playbook: "../tasks/install.yaml"
+
+- name: Setup GCP
+  import_playbook: "../tasks/setup.yaml"

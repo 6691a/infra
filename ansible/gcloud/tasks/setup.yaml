@@ -1,0 +1,48 @@
+- name: Copy credentials file to remote systems
+  hosts: all
+  become: yes
+  tasks:
+    - name: debug
+      debug:
+        msg: "{{ credential_file }}"
+
+    - name: Ensure the .config/gcloud directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.config/gcloud"
+        state: directory
+        mode: '0700'
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+
+    - name: Copy the GCP credentials file to remote system
+      copy:
+        src: "{{ credential_file }}"
+        dest: "{{ ansible_env.HOME }}/.config/gcloud/credentials.json"
+        mode: '0600'
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+
+    - name: Activate GCP service account
+      command:
+        cmd: "gcloud auth activate-service-account --key-file {{ ansible_env.HOME }}/.config/gcloud/credentials.json"
+
+    - name: Ensure the /root/.docker directory exists
+      file:
+        path: "/root/.docker"
+        state: directory
+        mode: '0700'
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+
+    - name: Create the config.json file
+      copy:
+        content: |
+          {
+            "credHelpers": {
+              "{{ region }}-docker.pkg.dev": "gcloud"
+            }
+          }
+        dest: "/root/.docker/config.json"
+        mode: '0600'
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"

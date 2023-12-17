@@ -66,5 +66,10 @@ terraform.rc
 /secret
 settings.yaml
 
+inventory.ini
+!/sample/
+
+**/setup/files/
+
 # IDE
 .DS_Store

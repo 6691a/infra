@@ -1,0 +1,38 @@
+---
+- name: Install Google Cloud CLI on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update the APT package index
+      apt:
+        update_cache: yes
+
+    - name: Add the Cloud SDK distribution URI as a package source
+      block:
+        - name: Download the Google Cloud public key
+          ansible.builtin.get_url:
+            url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+            dest: /tmp/apt-key.gpg
+            mode: '0644'
+
+        - name: Add the key to the trusted keyring
+          ansible.builtin.shell:
+            cmd: gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg /tmp/apt-key.gpg
+            creates: /usr/share/keyrings/cloud.google.gpg
+
+        - name: Add Cloud SDK repo to the APT sources list
+          lineinfile:
+            path: /etc/apt/sources.list.d/google-cloud-sdk.list
+            line: "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
+            create: yes
+
+    - name: Update the APT package index and install Google Cloud CLI
+      apt:
+        name: google-cloud-cli
+        update_cache: yes
+        state: latest
+
+    - name: Clean up
+      file:
+        path: /tmp/apt-key.gpg
+        state: absent
