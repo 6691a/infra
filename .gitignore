@@ -66,8 +66,11 @@ terraform.rc
 /secret
 settings.yaml
 
-inventory.ini
-!/sample/
+
+**/setup/inventory.ini
+
+# inventory.ini
+# !/sample/
 
 **/setup/files/
 
