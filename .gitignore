@@ -76,3 +76,5 @@ settings.yaml
 
 # IDE
 .DS_Store
+
+*.pem
