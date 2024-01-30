@@ -6,3 +6,7 @@ variable resource_group_name {
 variable custom_domain_mx_record {
   type        = string
 }
+
+variable smtp_recode {
+  type        = string
+}

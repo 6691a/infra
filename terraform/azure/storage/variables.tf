@@ -12,13 +12,3 @@ variable storage_name {
   type        = string
   default     = "playhubs"
 }
-
-variable private_container_name {
-  type        = string
-  default     = "private"
-}
-
-variable blob_container_name {
-  type        = string
-  default     = "blob"
-}

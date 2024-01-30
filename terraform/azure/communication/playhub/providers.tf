@@ -9,7 +9,7 @@ terraform {
     resource_group_name  = "playhub"
     storage_account_name = "playhubs"
     container_name       = "terraform"
-    key                  = "dns/playhub.tfstate"
+    key                  = "communication/playhub.tfstate"
   }
 }
 
